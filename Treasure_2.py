@@ -1,0 +1,57 @@
+import datetime
+from operator import gt
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+df = pd.read_excel('DATA SET & RULES - MOTOR TESTINdemo.xlsx',engine='openpyxl') # only for xlsx files
+
+# print(df.to_string())
+# print(df.columns)
+# X= df.iloc[4:, :2].values
+# p=pd.DataFrame(X)
+# print(p.to_string())
+# print(p.columns)
+# y=p[1].to_numpy()
+# x=range(0,len(y))
+# print(y)
+# print(x)
+# plt.plot(x,y)
+# plt.title('Input V Indicator')
+# # specifying horizontal line type
+# plt.axhline(y = 458,label ='Upper Limit-458', color = 'r', linestyle = '-')
+# plt.axhline(y = 455, label ='Tolerance-455',color = 'g', linestyle = '-')
+# plt.axhline(y = 452,label ='Lower Limit-452', color = 'r', linestyle = '-')
+# plt.legend(loc ='upper right')
+#
+# plt.xlabel("Time")
+# plt.ylabel("Input V")
+# plt.show()
+
+# Filter data between two dates
+# filtered_df = df.loc[(df['Timestamp'] >= '16-05-2021')
+#                      & (df['Timestamp'] < '18-05-2021')]
+# # Display
+# print(filtered_df)
+p=pd.DataFrame(df)
+start_date = datetime.datetime.strptime('2021-05-16',"%Y-%m-%d").date()
+end_date = datetime.datetime.strptime('2021-05-17',"%Y-%m-%d").date()
+for item in p['Unnamed: 0'][5:]:
+    #print(str(item))
+
+    data = datetime.datetime.strptime(str(item),'%Y-%m-%d %H:%M:%S.%f')
+    mask = (data.date() >= start_date) and (data.date() < end_date)
+
+    plt.plot(mask, y)
+    plt.title('Input V Indicator')
+    # specifying horizontal line type
+    plt.axhline(y=458, label='Upper Limit-458', color='r', linestyle='-')
+    plt.axhline(y=455, label='Tolerance-455', color='g', linestyle='-')
+    plt.axhline(y=452, label='Lower Limit-452', color='r', linestyle='-')
+    plt.legend(loc='upper right')
+
+    plt.xlabel("Time")
+    plt.ylabel("Input V")
+    plt.show()
+
+
